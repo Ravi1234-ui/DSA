@@ -1,17 +1,19 @@
 class Solution {
     public int majorityElement(int[] arr) {
-        int n=arr.length;
-		HashMap<Integer, Integer> hm=new HashMap<Integer, Integer>();
+        int cnt=0,el=-1,n=arr.length;
 		for(int i=0;i<n;i++) {
-			hm.put(arr[i], hm.getOrDefault(arr[i], 0)+1);
-		}
-		int maximum=-1,key=0;
-		for(Map.Entry<Integer, Integer> entry:hm.entrySet()) {
-			if(maximum<entry.getValue()) {
-				key=entry.getKey();
-				maximum=entry.getValue();
+			if(cnt==0) {
+				el=arr[i];
+				cnt++;
+			}else if(arr[i]==el) cnt++;
+			else {
+				cnt--;
 			}
 		}
-		return key;	
+		int cnt1=0;
+		for(int i=0;i<n;i++) {
+			if(arr[i]==el) cnt1++;
+		}if(cnt1>n/2)return el;
+		return -1;
     }
 }
