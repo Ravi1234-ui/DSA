@@ -1,27 +1,24 @@
 class Solution {
-    public int[][] merge(int[][] arr) {
-        int n = arr.length;
-        Arrays.sort(arr, (a, b) -> a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
-        List<List<Integer>> ans = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            int start = arr[i][0];
-            int end = arr[i][1];
+    public int[][] merge(int[][] intervals) {
+        List<List<Integer>> list = new ArrayList<List<Integer>>();
+        int n = intervals.length;
+        Arrays.sort(intervals, (a, b) -> a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
 
-            if (!ans.isEmpty() && end <= ans.get(ans.size() - 1).get(1)) continue;
-            for (int j = i + 1; j < n; j++) {
-                if (arr[j][0] <= end) {
-                    end = Math.max(end, arr[j][1]);
-                } else {
-                    break;
-                }
+        for (int i = 0; i < n; i++) {
+            if (list.isEmpty() || list.get(list.size() - 1).get(1) < intervals[i][0]) {
+                list.add(Arrays.asList(intervals[i][0], intervals[i][1]));
+            } else {
+                list.get(list.size() - 1).set(1,
+                    Math.max(list.get(list.size() - 1).get(1), intervals[i][1]));
             }
-            ans.add(Arrays.asList(start, end));
         }
-        int[][] res = new int[ans.size()][2];
-        for(int i=0;i<ans.size();i++){
-            res[i][0] = ans.get(i).get(0);
-            res[i][1] = ans.get(i).get(1);
+
+        // Convert List<List<Integer>> back to int[][]
+        int[][] result = new int[list.size()][2];
+        for (int i = 0; i < list.size(); i++) {
+            result[i][0] = list.get(i).get(0);
+            result[i][1] = list.get(i).get(1);
         }
-        return res;
+        return result;
     }
 }
