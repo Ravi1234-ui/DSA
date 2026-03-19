@@ -1,25 +1,40 @@
 class Solution {
     public int numberOfSubmatrices(char[][] grid) {
-       int rows = grid.length, cols = grid[0].length;
-        int[] sumX = new int[cols];
-        int[] sumY = new int[cols];
-        int res = 0;
+        int m = grid.length;
+        int n = grid[0].length;
 
-        for (int i = 0; i < rows; i++) {
-            int rx = 0, ry = 0;
+        int[][] cumSumX = new int[m][n];
+        int[][] cumSumY = new int[m][n];
 
-            for (int j = 0; j < cols; j++) {
-                if (grid[i][j] == 'X') rx++;
-                else if (grid[i][j] == 'Y') ry++;
+        int count = 0;
 
-                sumX[j] += rx;
-                sumY[j] += ry;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
 
-                if (sumX[j] > 0 && sumX[j] == sumY[j]) res++;
+                cumSumX[i][j] = (grid[i][j] == 'X') ? 1 : 0;
+                cumSumY[i][j] = (grid[i][j] == 'Y') ? 1 : 0;
+
+                if (i - 1 >= 0) {
+                    cumSumX[i][j] += cumSumX[i - 1][j];
+                    cumSumY[i][j] += cumSumY[i - 1][j];
+                }
+
+                if (j - 1 >= 0) {
+                    cumSumX[i][j] += cumSumX[i][j - 1];
+                    cumSumY[i][j] += cumSumY[i][j - 1];
+                }
+
+                if (i - 1 >= 0 && j - 1 >= 0) {
+                    cumSumX[i][j] -= cumSumX[i - 1][j - 1];
+                    cumSumY[i][j] -= cumSumY[i - 1][j - 1];
+                }
+
+                if (cumSumX[i][j] == cumSumY[i][j] && cumSumX[i][j] > 0) {
+                    count++;
+                }
             }
         }
 
-        return res;
-
+        return count;
     }
 }
