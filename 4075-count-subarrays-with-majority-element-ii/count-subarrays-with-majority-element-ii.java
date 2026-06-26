@@ -16,7 +16,7 @@ class Solution {
                 currSum--;
                 validLeftPoints -= mp.getOrDefault(currSum, 0);
             }
-            mp.merge(currSum, 1, Integer::sum);
+            mp.put(currSum, mp.getOrDefault(currSum, 0) + 1);
             result += validLeftPoints;
         }
         return result;
