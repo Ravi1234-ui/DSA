@@ -10,11 +10,11 @@ class Solution {
 
         int result = (n - mp.size()) * 2;
 
-        int maskA = (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5); //set bits are the ones I need empty for Group A
-        int maskB = (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7); //set bits are the ones I need empty for Group B
-        int maskC = (1 << 6) | (1 << 7) | (1 << 8) | (1 << 9); //set bits are the ones I need empty for Group C
+        int maskA = (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5); 
+        int maskB = (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7); 
+        int maskC = (1 << 6) | (1 << 7) | (1 << 8) | (1 << 9); 
 
-        for(Map.Entry<Integer, Integer> entry : mp.entrySet()) { //min(10*n, 10^4)
+        for(Map.Entry<Integer, Integer> entry : mp.entrySet()) {
             int bookedSeatsMask = entry.getValue();
 
             boolean groupA = (bookedSeatsMask & maskA) == 0;
